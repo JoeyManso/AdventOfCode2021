@@ -2,6 +2,7 @@
 #define POINT2D_H
 
 #include "Vector2D.h"
+#include <string>
 
 struct Point2D
 {
@@ -56,6 +57,12 @@ struct Point2D
     {
         x -= v.x;
         y -= v.y;
+    }
+    string ToString() const
+    {
+        char buffer[256];
+        sprintf_s(buffer, "(%d, %d)", x, y);
+        return string(buffer);
     }
 };
 
