@@ -24,15 +24,32 @@ static inline bool IsNumber(const string& s)
 
 inline vector<string> split(string str, char delimiter)
 {
-	vector<string> strArray;
+	vector<string> outArray;
 	stringstream ss(str); // Turn the string into a stream.
 	string tok;
 
 	while(getline(ss, tok, delimiter))
 	{
-		strArray.push_back(tok);
+		if (tok.length() > 0)
+		{
+			outArray.push_back(tok);
+		}
 	}
-	return strArray;
+	return outArray;
+}
+
+inline vector<int> splitInt(string str, char delimiter)
+{
+	vector<string> stringArray = split(str, delimiter);
+	vector<int> outArray;
+	for (const string& s : stringArray)
+	{
+		if (s.length() > 0)
+		{
+			outArray.push_back(stoi(s.c_str()));
+		}
+	}
+	return outArray;
 }
 
 // trim from start (in place)
