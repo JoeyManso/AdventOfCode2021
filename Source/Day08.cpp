@@ -127,20 +127,6 @@ struct SegmentDisplay
 			i >= numberPatternPool.size() - 1 ? i = 0 : ++i;
 		}
 
-		//const set<char> NUMBER_PATTERNS[] = {
-		//	{'c', 'a', 'g', 'e', 'd', 'b'},
-		//	{'a', 'b'},
-		//	{'g', 'c', 'd', 'f', 'a'},
-		//	{'f', 'b', 'c', 'a', 'd'},
-		//	{'e', 'a', 'f', 'b'},
-		//	{'c', 'd', 'f', 'b', 'e'},
-		//	{'c', 'd', 'f', 'g', 'e', 'b'},
-		//	{'d', 'a', 'b'},
-		//	{'a', 'c', 'e', 'd', 'g', 'f', 'b'},
-		//	{'c', 'e', 'f', 'a', 'b', 'd'},
-		//};
-
-		
 		string outputNumberStr = "";
 		for (const string& outputPattern : outputPatterns)
 		{
@@ -197,9 +183,14 @@ void Run<Day08>(Part part, istream& is, ostream& os)
 		{
 			for (const string& outputPattern : segmentDisplay.GetOutputPatterns())
 			{
-				if (outputPattern.size() == 2 || outputPattern.size() == 3 || outputPattern.size() == 4 || outputPattern.size() == 7)
+				switch (outputPattern.size())
 				{
-					++uniqueSegmentCount;
+					case 2:
+					case 3:
+					case 4:
+					case 7:
+						++uniqueSegmentCount;
+						break;
 				}
 			}
 		}
