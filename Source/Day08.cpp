@@ -61,70 +61,50 @@ struct SegmentDisplay
 
 	int GetOutputNumber()
 	{
-		for (int i = 0; i < numberPatternPool.size();)
+		while (numberPatternPool.size())
 		{
-			switch (numberPatternPool[i].size())
+			const set<char>& numberPatternCandidate = *numberPatternPool.begin();
+			set<char> intersectOne, intersectFour;
+			set_intersection(numberPatternCandidate.begin(), numberPatternCandidate.end(), numberPatterns[1].begin(), numberPatterns[1].end(), inserter(intersectOne, intersectOne.begin()));
+			set_intersection(numberPatternCandidate.begin(), numberPatternCandidate.end(), numberPatterns[4].begin(), numberPatterns[4].end(), inserter(intersectFour, intersectFour.begin()));
+			switch (numberPatternCandidate.size())
 			{
 				case 5:
+					if (intersectOne.size() == 1 && intersectFour.size() == 2)
 					{
-						set<char> intersectOne, intersectFour, intersectSeven;
-						set_intersection(numberPatternPool[i].begin(), numberPatternPool[i].end(), numberPatterns[1].begin(), numberPatterns[1].end(), inserter(intersectOne, intersectOne.begin()));
-						set_intersection(numberPatternPool[i].begin(), numberPatternPool[i].end(), numberPatterns[4].begin(), numberPatterns[4].end(), inserter(intersectFour, intersectFour.begin()));
-						set_intersection(numberPatternPool[i].begin(), numberPatternPool[i].end(), numberPatterns[7].begin(), numberPatterns[7].end(), inserter(intersectSeven, intersectSeven.begin()));
-						if(intersectOne.size() == 2 && intersectSeven.size() == 3)
-						{
-							// Pattern "3" will have 2 intersections with Pattern "1" and 3 intersections with Pattern "7"
-							numberPatterns[3] = numberPatternPool[i];
-							numberPatternPool.erase(numberPatternPool.begin() + i);
-							--i;
-						}
-						else if (intersectOne.size() == 1 && intersectFour.size() == 2)
-						{
-							// Pattern "2" will have 1 intersections with Pattern "1" and 2 intersections with Pattern "4"
-							numberPatterns[2] = numberPatternPool[i];
-							numberPatternPool.erase(numberPatternPool.begin() + i);
-							--i;
-						}
-						else if (intersectOne.size() == 1 && intersectFour.size() == 3)
-						{
-							// Pattern "5" will have 1 intersections with Pattern "1" and 3 intersections with Pattern "4"
-							numberPatterns[5] = numberPatternPool[i];
-							numberPatternPool.erase(numberPatternPool.begin() + i);
-							--i;
-						}
+						// Pattern "2" will have 1 intersections with Pattern "1" and 2 intersections with Pattern "4"
+						numberPatterns[2] = numberPatternCandidate;
+					}
+					else if(intersectOne.size() == 2)
+					{
+						// Pattern "3" will have 2 intersections with Pattern "1"
+						numberPatterns[3] = numberPatternCandidate;
+					}
+					else if (intersectOne.size() == 1 && intersectFour.size() == 3)
+					{
+						// Pattern "5" will have 1 intersections with Pattern "1" and 3 intersections with Pattern "4"
+						numberPatterns[5] = numberPatternCandidate;
 					}
 					break;
 				case 6:
+					if (intersectOne.size() == 2 && intersectFour.size() == 3)
 					{
-						set<char> intersectOne, intersectFour, intersectSeven;
-						set_intersection(numberPatternPool[i].begin(), numberPatternPool[i].end(), numberPatterns[1].begin(), numberPatterns[1].end(), inserter(intersectOne, intersectOne.begin()));
-						set_intersection(numberPatternPool[i].begin(), numberPatternPool[i].end(), numberPatterns[4].begin(), numberPatterns[4].end(), inserter(intersectFour, intersectFour.begin()));
-						set_intersection(numberPatternPool[i].begin(), numberPatternPool[i].end(), numberPatterns[7].begin(), numberPatterns[7].end(), inserter(intersectSeven, intersectSeven.begin()));
-						if(intersectOne.size() == 1 && intersectSeven.size() == 2)
-						{
-							// Pattern "6" will have 1 intersections with Pattern "1" and 2 intersections with Pattern "7"
-							numberPatterns[6] = numberPatternPool[i];
-							numberPatternPool.erase(numberPatternPool.begin() + i);
-							--i;
-						}
-						else if (intersectOne.size() == 2 && intersectFour.size() == 3)
-						{
-							// Pattern "0" will have 2 intersections with Pattern "1" and 3 intersections with Pattern "4"
-							numberPatterns[0] = numberPatternPool[i];
-							numberPatternPool.erase(numberPatternPool.begin() + i);
-							--i;
-						}
-						else if (intersectFour.size() == 4)
-						{
-							// Pattern "9" will have 4 intersections with Pattern "4"
-							numberPatterns[9] = numberPatternPool[i];
-							numberPatternPool.erase(numberPatternPool.begin() + i);
-							--i;
-						}
+						// Pattern "0" will have 2 intersections with Pattern "1" and 3 intersections with Pattern "4"
+						numberPatterns[0] = numberPatternCandidate;
+					}
+					else if(intersectOne.size() == 1)
+					{
+						// Pattern "6" will have 1 intersections with Pattern "1"
+						numberPatterns[6] = numberPatternCandidate;
+					}
+					else if (intersectFour.size() == 4)
+					{
+						// Pattern "9" will have 4 intersections with Pattern "4"
+						numberPatterns[9] = numberPatternCandidate;
 					}
 					break;
 			}
-			i >= numberPatternPool.size() - 1 ? i = 0 : ++i;
+			numberPatternPool.erase(numberPatternPool.begin());
 		}
 
 		string outputNumberStr = "";
