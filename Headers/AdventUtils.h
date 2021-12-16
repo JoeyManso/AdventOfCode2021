@@ -52,6 +52,88 @@ inline vector<int> splitInt(string str, char delimiter)
 	return outArray;
 }
 
+template <typename T>
+inline T BinaryToDecimal(const string& binaryStr)
+{
+	T dec = 0;
+	size_t exponent = static_cast<size_t>(binaryStr.length()) - 1;
+	for (size_t i = 0; i < binaryStr.length(); ++i)
+	{
+		T bitValue = CharToInt(binaryStr[i]);
+		dec += bitValue * static_cast<T>(pow(2, exponent));
+		--exponent;
+	}
+	return dec;
+}
+
+inline string HexidecimalToBinary(const string& hexStr)
+{
+    string binaryStr = "";
+    for (size_t i = 0; i < hexStr.length(); ++i)
+    {
+        switch (hexStr[i]) 
+        {
+            case '0':
+                binaryStr.append("0000");
+                break;
+            case '1':
+                binaryStr.append("0001");
+                break;
+            case '2':
+                binaryStr.append("0010");
+                break;
+            case '3':
+                binaryStr.append("0011");
+                break;
+            case '4':
+                binaryStr.append("0100");
+                break;
+            case '5':
+                binaryStr.append("0101");
+                break;
+            case '6':
+                binaryStr.append("0110");
+                break;
+            case '7':
+                binaryStr.append("0111");
+                break;
+            case '8':
+                binaryStr.append("1000");
+                break;
+            case '9':
+                binaryStr.append("1001");
+                break;
+            case 'A':
+            case 'a':
+                binaryStr.append("1010");
+                break;
+            case 'B':
+            case 'b':
+                binaryStr.append("1011");
+                break;
+            case 'C':
+            case 'c':
+                binaryStr.append("1100");
+                break;
+            case 'D':
+            case 'd':
+                binaryStr.append("1101");
+                break;
+            case 'E':
+            case 'e':
+                binaryStr.append("1110");
+                break;
+            case 'F':
+            case 'f':
+                binaryStr.append("1111");
+                break;
+            default:
+                cout << "\nInvalid hexadecimal digit " << hexStr[i];
+        }
+    }
+    return binaryStr;
+}
+
 // trim from start (in place)
 static inline void ltrim(string &s)
 {

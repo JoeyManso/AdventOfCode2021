@@ -13,19 +13,6 @@ enum BitCriteria
 	C02,
 };
 
-int BinaryToDecimal(const string& binaryStr)
-{
-	int dec = 0;
-	int exponent = static_cast<int>(binaryStr.length()) - 1;
-	for (int i = 0; i < binaryStr.length(); ++i)
-	{
-		int bitValue = CharToInt(binaryStr[i]);
-		dec += bitValue * static_cast<int>(pow(2, exponent));
-		--exponent;
-	}
-	return dec;
-}
-
 map<int, int> GetBitCountMap(const vector<string>& binaryStringArray, size_t bitIndex)
 {
 	map<int, int> bitCountMap = {
@@ -127,8 +114,8 @@ void Run<Day03>(Part part, istream& is, ostream& os)
 	{
 		string gammaRateBinaryStr = GetBinaryStringForCriteria(binaryStringArray, binaryStringLen, Gamma);
 		string epsilonRateBinaryStr = GetBinaryStringForCriteria(binaryStringArray, binaryStringLen, Epsilon);
-		int gammaRateDec = BinaryToDecimal(gammaRateBinaryStr);
-		int epsilonRateDec = BinaryToDecimal(epsilonRateBinaryStr);
+		int gammaRateDec = BinaryToDecimal<int>(gammaRateBinaryStr);
+		int epsilonRateDec = BinaryToDecimal<int>(epsilonRateBinaryStr);
 		cout << "Gamma Rate: Binary - " << gammaRateBinaryStr << ", Decimal - " << gammaRateDec << endl;
 		cout << "Epsilon Rate: Binary - " << epsilonRateBinaryStr << ", Decimal - " << epsilonRateDec << endl;
 		cout << "Power Consumption: " << gammaRateDec * epsilonRateDec << endl;
@@ -137,8 +124,8 @@ void Run<Day03>(Part part, istream& is, ostream& os)
 	{
 		string oxygenBinaryStr = GetBinaryStringForCriteria(binaryStringArray, binaryStringLen, Oxygen);
 		string c02BinaryStr = GetBinaryStringForCriteria(binaryStringArray, binaryStringLen, C02);
-		int oxygenRateDec = BinaryToDecimal(oxygenBinaryStr);
-		int c02RateDec = BinaryToDecimal(c02BinaryStr);
+		int oxygenRateDec = BinaryToDecimal<int>(oxygenBinaryStr);
+		int c02RateDec = BinaryToDecimal<int>(c02BinaryStr);
 		cout << "Oxygen Rate: Binary - " << c02BinaryStr << ", Decimal - " << oxygenRateDec << endl;
 		cout << "C02 Rate: Binary - " << c02BinaryStr << ", Decimal - " << c02RateDec << endl;
 		cout << "Life Support Rating: " << oxygenRateDec * c02RateDec << endl;
