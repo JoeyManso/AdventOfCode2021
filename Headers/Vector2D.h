@@ -28,6 +28,11 @@ public:
 		return(Vector2D(x + v.x, y + v.y));
 	}
 
+	bool operator<(const Vector2D& v) const
+    {
+        return(x < v.x || (x == v.x && y < v.y));
+    }
+
 	Vector2D& operator+=(const Vector2D& v)
 	{
 		x += v.x;
@@ -48,6 +53,12 @@ public:
 	bool operator!=(const Vector2D& v) const
 	{
 		return(x != v.x || y != v.y);
+	}
+
+	friend ostream& operator<<(ostream& os, const Vector2D& v)
+	{
+		os << v.ToString();
+		return os;
 	}
 
 	void RotateByDegrees(double degrees)
@@ -81,6 +92,13 @@ public:
 	{
 		return(v1 - v2).Length();
 	}
+
+	string ToString() const
+    {
+        char buffer[256];
+        sprintf_s(buffer, "(%d, %d)", x, y);
+        return string(buffer);
+    }
 };
 
 static Vector2D operator*(const float magnitude, const Vector2D v)

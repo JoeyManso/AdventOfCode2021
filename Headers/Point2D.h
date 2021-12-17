@@ -58,6 +58,11 @@ struct Point2D
         x -= v.x;
         y -= v.y;
     }
+    friend ostream& operator<<(ostream& os, const Point2D& p)
+	{
+		os << p.ToString();
+		return os;
+	}
     string ToString() const
     {
         char buffer[256];
