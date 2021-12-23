@@ -116,6 +116,12 @@
     <ClInclude Include="Headers\Vector2D.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Headers\Point3D.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\Vector3D.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Input\Day01.txt">

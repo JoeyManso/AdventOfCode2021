@@ -74,7 +74,9 @@
     <ClInclude Include="Headers\Days.h" />
     <ClInclude Include="Headers\MD5.h" />
     <ClInclude Include="Headers\Point2D.h" />
+    <ClInclude Include="Headers\Point3D.h" />
     <ClInclude Include="Headers\Vector2D.h" />
+    <ClInclude Include="Headers\Vector3D.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
