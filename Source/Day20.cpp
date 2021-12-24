@@ -27,7 +27,7 @@ char GetOutputPixel(const string& enhancementAlgorithm, const vector<vector<char
 
 vector<vector<char>> GetOutputImage(const string& enhancementAlgorithm, const vector<vector<char>>& inputImage, char infinitePixel)
 {
-	const int outputPadding = 3;
+	const int outputPadding = 1;
 	const int inputImageGrid = static_cast<int>(inputImage.size());
 	const int outputImageGrid = inputImageGrid + outputPadding * 2;
 	vector<vector<char>> outputImage = {};
