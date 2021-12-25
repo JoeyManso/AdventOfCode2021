@@ -21,9 +21,11 @@ inline double ToDegrees(double radians)
 	return(radians * (180.0 / M_PI));
 }
 
-inline int ToInt(char c)
+/** Returns descending sum from the target number (e.g. 4+3+2+1) */
+template <typename T>
+inline T DescendingSum(T target)
 {
-    return(c - '0');
+	return (target * (target + 1)) / 2;
 }
 
 template <typename T>
