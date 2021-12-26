@@ -255,7 +255,7 @@ void Run<Day19>(Part part, istream& is, ostream& os)
 	}
 	else if(part == Part02)
 	{
-        int maxDist = 0;
+        int64_t maxDist = 0;
         for (size_t i = 0; i < scanners.size(); ++i)
 		{
 			for (size_t j = i + 1; j < scanners.size(); ++j)

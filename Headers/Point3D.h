@@ -3,17 +3,18 @@
 
 #include "Vector3D.h"
 #include <string>
+#include <inttypes.h>
 
 struct Point3D
 {
-    int x;
-    int y;
-    int z;
+    int64_t x;
+    int64_t y;
+    int64_t z;
 
     Point3D() :
         x(0), y(0), z(0)
     {}
-    Point3D(int inX, int inY, int inZ) :
+    Point3D(int64_t inX, int64_t inY, int64_t inZ) :
         x(inX), y(inY), z(inZ)
     {}
 
@@ -65,7 +66,7 @@ struct Point3D
     string ToString() const
     {
         char buffer[256];
-        sprintf_s(buffer, "(%d, %d, %d)", x, y, z);
+        sprintf_s(buffer, "(%" PRId64 ", %" PRId64 " , %" PRId64 ")", x, y, z);
         return string(buffer);
     }
 };
