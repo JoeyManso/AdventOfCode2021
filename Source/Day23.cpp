@@ -208,6 +208,37 @@ struct Burrow
 		return false;
 	}
 
+	uint64_t CreateKey() const
+	{
+		uint64_t key = energyCost;
+		for (size_t x = 0; x < Cols(); ++x)
+		{
+			for (size_t y = 0; y < Rows(); ++y)
+			{
+				if (grid[x][y].IsAmphipod())
+				{
+					key += (key * grid[x][y].GetMoveEnergy()) + (x * 10) + (y * 100);
+				}
+			}
+		}
+		return key;
+	}
+
+	string ToString() const
+	{
+		string s;
+		for (int x = 0, y = 0; y < Rows(); ++y)
+		{
+			for (; x < Cols(); ++x)
+			{
+				s.push_back(grid[x][y].c);
+			}
+			s.push_back('\n');
+			x = 0;
+		}
+		return s;
+	}
+
 	BurrowNode& operator[](const Point2D& p)
 	{
 		return grid[p.x][p.y];
@@ -220,16 +251,7 @@ struct Burrow
 
 	friend ostream& operator<<(ostream& os, const Burrow& b)
 	{
-		for (int x = 0, y = 0; y < b.Rows(); ++y)
-		{
-			for (; x < b.Cols(); ++x)
-			{
-				os << b[Point2D(x, y)];
-			}
-			x = 0;
-			os << endl;
-		}
-		os << endl;
+		os << b.ToString();
 		return os;
 	}
 
@@ -238,10 +260,16 @@ private:
 	vector<vector<BurrowNode>> grid;
 };
 
-void TryOrderBurrow(Burrow burrow, uint64_t& minCost)
+void TryOrderBurrow(Burrow burrow, uint64_t& minCost, map<uint64_t, uint64_t>& solvedBurrowsMap)
 {
-	static uint64_t counter = 0;
-	if (burrow.IsOrdered())
+	const uint64_t burrowKey = burrow.CreateKey();
+	auto solvedPair = solvedBurrowsMap.find(burrowKey);
+	if (solvedPair != solvedBurrowsMap.end())
+	{
+		// Burrow already solved, skip parsing
+		minCost = solvedPair->second;
+	}
+	else if (burrow.IsOrdered())
 	{
 		minCost = min(burrow.GetEnergyCost(), minCost);
 	}
@@ -268,7 +296,10 @@ void TryOrderBurrow(Burrow burrow, uint64_t& minCost)
 				Burrow burrowCopy = burrow;
 				if (burrowCopy.TryMove(hallwaySpot, roomSpot))
 				{
-					TryOrderBurrow(burrowCopy, minCost);
+					uint64_t minCostCopy = INT_MAX;
+					TryOrderBurrow(burrowCopy, minCostCopy, solvedBurrowsMap);
+					solvedBurrowsMap.emplace(burrowCopy.CreateKey(), minCostCopy);
+					minCost = min(minCost, minCostCopy);
 				}
 			}
 		}
@@ -287,7 +318,10 @@ void TryOrderBurrow(Burrow burrow, uint64_t& minCost)
 						Burrow burrowCopy = burrow;
 						if (burrowCopy.TryMove(roomSpot, hallwaySpot))
 						{
-							TryOrderBurrow(burrowCopy, minCost);
+							uint64_t minCostCopy = INT_MAX;
+							TryOrderBurrow(burrowCopy, minCostCopy, solvedBurrowsMap);
+							solvedBurrowsMap.emplace(burrowCopy.CreateKey(), minCostCopy);
+							minCost = min(minCost, minCostCopy);
 						}
 					}
 				}
@@ -315,6 +349,7 @@ void Run<Day23>(Part part, istream& is, ostream& os)
 	}
 
 	uint64_t minEnergyCost = INT_MAX;
-	TryOrderBurrow(burrow, minEnergyCost);
+	map<uint64_t, uint64_t> solvedBurrowsMap = {};
+	TryOrderBurrow(burrow, minEnergyCost, solvedBurrowsMap);
 	os << "Minimum Energy Cost: " << minEnergyCost << endl;
 }
